@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Transición Energética Colombia — Talento Tech</title>
+  <style>
+    :root {
+      --teal: #0D9488;
+      --teal-dark: #0F766E;
+      --navy: #065A82;
+      --navy-dark: #044060;
+      --amber: #D97706;
+      --dark: #1E293B;
+      --light: #F1F5F9;
+      --white: #FFFFFF;
+      --gray: #64748B;
+      --red: #DC2626;
+      --green: #16A34A;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; color: var(--dark); background: var(--white); }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      background: rgba(6,90,130,0.97); backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2.5rem; height: 60px; border-bottom: 2px solid var(--teal);
+    }
+    .nav-brand { color: white; font-size: 1rem; font-weight: 700; letter-spacing: .5px; }
+    .nav-links { display: flex; gap: 1.8rem; list-style: none; }
+    .nav-links a { color: rgba(255,255,255,.8); text-decoration: none; font-size: .9rem;
+                   transition: color .2s; }
+    .nav-links a:hover { color: var(--teal); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 45%, var(--teal-dark) 100%);
+      display: flex; align-items: center; padding: 7rem 2.5rem 4rem;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .hero-content { max-width: 700px; position: relative; z-index: 1; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: rgba(13,148,136,.25); border: 1px solid var(--teal);
+      color: #5EEAD4; padding: .35rem 1rem; border-radius: 99px;
+      font-size: .85rem; font-weight: 600; margin-bottom: 1.5rem;
+    }
+    .hero h1 { font-size: clamp(2rem, 4.5vw, 3.4rem); font-weight: 800;
+               color: white; line-height: 1.15; margin-bottom: 1rem; }
+    .hero h1 span { color: var(--teal); }
+    .hero p { font-size: 1.15rem; color: rgba(255,255,255,.75);
+              line-height: 1.7; margin-bottom: 2rem; max-width: 580px; }
+    .btn-group { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn { padding: .75rem 1.75rem; border-radius: 8px; font-size: .95rem;
+           font-weight: 600; text-decoration: none; display: inline-flex;
+           align-items: center; gap: .5rem; transition: all .2s; cursor: pointer; border: none; }
+    .btn-primary { background: var(--teal); color: white; }
+    .btn-primary:hover { background: var(--teal-dark); transform: translateY(-2px); }
+    .btn-outline { background: transparent; color: white;
+                   border: 2px solid rgba(255,255,255,.4); }
+    .btn-outline:hover { border-color: white; background: rgba(255,255,255,.08); }
+
+    /* STATS BAND */
+    .stats-band {
+      background: var(--dark); padding: 2.5rem 2.5rem;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.5rem;
+    }
+    .stat-item { text-align: center; }
+    .stat-num { font-size: 2.2rem; font-weight: 800; color: var(--teal); }
+    .stat-label { font-size: .85rem; color: rgba(255,255,255,.6); margin-top: .3rem; }
+
+    /* SECTIONS */
+    section { padding: 5rem 2.5rem; max-width: 1100px; margin: 0 auto; }
+    .section-tag { font-size: .8rem; font-weight: 700; letter-spacing: 1.5px;
+                   text-transform: uppercase; color: var(--teal); margin-bottom: .75rem; }
+    h2 { font-size: clamp(1.6rem, 3vw, 2.3rem); font-weight: 800;
+         color: var(--navy); margin-bottom: 1rem; }
+    .section-lead { font-size: 1.05rem; color: var(--gray);
+                    line-height: 1.75; max-width: 700px; }
+
+    /* CARDS */
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+             gap: 1.5rem; margin-top: 3rem; }
+    .card {
+      background: var(--light); border-radius: 12px; padding: 1.75rem;
+      border-left: 4px solid var(--teal); transition: transform .2s, box-shadow .2s;
+    }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,.1); }
+    .card-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .card h3 { font-size: 1.05rem; font-weight: 700; color: var(--navy); margin-bottom: .6rem; }
+    .card p { font-size: .9rem; color: var(--gray); line-height: 1.65; }
+
+    /* DATA SECTION */
+    .data-section { background: var(--light); padding: 5rem 0; }
+    .data-inner { max-width: 1100px; margin: 0 auto; padding: 0 2.5rem; }
+
+    /* RESULTS TABLE */
+    .results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                    gap: 1rem; margin-top: 2.5rem; }
+    .result-item {
+      background: white; border-radius: 10px; padding: 1.5rem;
+      text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,.06);
+      border-top: 3px solid var(--teal);
+    }
+    .result-dep { font-size: .8rem; color: var(--gray); font-weight: 600;
+                  text-transform: uppercase; letter-spacing: .5px; }
+    .result-val { font-size: 1.9rem; font-weight: 800; color: var(--navy); margin: .4rem 0; }
+    .result-desc { font-size: .82rem; color: var(--gray); }
+    .up { color: var(--green) !important; }
+    .down { color: var(--red) !important; }
+
+    /* NORMATIVA */
+    .timeline { position: relative; padding-left: 2rem; margin-top: 2rem; }
+    .timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+                         width: 3px; background: linear-gradient(var(--teal), var(--navy)); }
+    .tl-item { position: relative; margin-bottom: 1.8rem; }
+    .tl-item::before { content: ''; position: absolute; left: -2.4rem; top: .35rem;
+                        width: 12px; height: 12px; border-radius: 50%;
+                        background: var(--teal); border: 2px solid white;
+                        box-shadow: 0 0 0 3px var(--teal); }
+    .tl-year { font-size: .8rem; font-weight: 700; color: var(--teal);
+               text-transform: uppercase; letter-spacing: 1px; }
+    .tl-title { font-size: 1rem; font-weight: 700; color: var(--navy); margin: .2rem 0; }
+    .tl-desc { font-size: .9rem; color: var(--gray); line-height: 1.6; }
+
+    /* HERRAMIENTAS */
+    .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+                  gap: 1rem; margin-top: 2rem; }
+    .tool-chip {
+      background: white; border: 2px solid var(--light);
+      border-radius: 10px; padding: 1.2rem 1rem; text-align: center;
+      font-weight: 600; font-size: .9rem; color: var(--navy);
+      transition: border-color .2s;
+    }
+    .tool-chip:hover { border-color: var(--teal); }
+    .tool-chip span { display: block; font-size: 1.6rem; margin-bottom: .5rem; }
+
+    /* ENTREGABLES */
+    .deliverables { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                    gap: 1.5rem; margin-top: 2.5rem; }
+    .deliv { background: var(--navy); color: white; border-radius: 12px;
+             padding: 2rem 1.5rem; text-align: center; }
+    .deliv-icon { font-size: 2.5rem; margin-bottom: .8rem; }
+    .deliv-title { font-size: 1rem; font-weight: 700; margin-bottom: .5rem; }
+    .deliv-desc { font-size: .85rem; color: rgba(255,255,255,.65); }
+
+    /* EQUIPO */
+    .team { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 1.5rem; margin-top: 2.5rem; }
+    .member { text-align: center; }
+    .avatar { width: 80px; height: 80px; border-radius: 50%; background: var(--teal);
+              display: flex; align-items: center; justify-content: center;
+              font-size: 2rem; margin: 0 auto 1rem; }
+    .member-name { font-weight: 700; color: var(--navy); }
+    .member-role { font-size: .85rem; color: var(--gray); margin-top: .25rem; }
+
+    /* FOOTER */
+    footer { background: var(--dark); color: rgba(255,255,255,.6);
+             text-align: center; padding: 2rem; font-size: .88rem; }
+    footer strong { color: var(--teal); }
+
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .hero { padding-top: 5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">⚡ EnergíaColombia 2030</div>
+  <ul class="nav-links">
+    <li><a href="#problema">Problema</a></li>
+    <li><a href="#datos">Datos</a></li>
+    <li><a href="#resultados">Resultados</a></li>
+    <li><a href="#normativa">Normativa</a></li>
+    <li><a href="#equipo">Equipo</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="hero-content">
+    <div class="hero-badge">🌱 Talento Tech · Análisis de Datos · Nivel Integrador</div>
+    <h1>Transición Energética<br>en <span>Colombia</span><br>hacia 2030</h1>
+    <p>
+      Análisis integral de la evolución de la matriz eléctrica colombiana entre 2020 y 2024,
+      usando bases de datos MySQL, Python y visualización avanzada para identificar
+      patrones, brechas y oportunidades en la ruta hacia la carbono neutralidad.
+    </p>
+    <div class="btn-group">
+      <a class="btn btn-primary" href="#resultados">📊 Ver Resultados</a>
+      <a class="btn btn-outline" href="#datos">🗄️ Explorar Datos</a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAND -->
+<div class="stats-band">
+  <div class="stat-item">
+    <div class="stat-num">92.1%</div>
+    <div class="stat-label">Capacidad renovable instalada</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">11.2 GW</div>
+    <div class="stat-label">Meta FNCER Ley 2099 — 2030</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">–48.6%</div>
+    <div class="stat-label">Reducción emisiones La Guajira</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">+20%/año</div>
+    <div class="stat-label">CAGR inversión energías limpias</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">20 plantas</div>
+    <div class="stat-label">Analizadas en la base de datos</div>
+  </div>
+</div>
+
+<!-- PROBLEMA -->
+<section id="problema">
+  <div class="section-tag">01 · Problemática</div>
+  <h2>¿Por qué estudiar la transición energética colombiana?</h2>
+  <p class="section-lead">
+    Colombia enfrenta el reto de reducir el 51% de sus emisiones de GEI para 2030, mientras
+    garantiza la universalización del servicio eléctrico. La transición no es solo ambiental:
+    es una oportunidad de equidad, desarrollo económico e innovación tecnológica.
+  </p>
+  <div class="cards">
+    <div class="card">
+      <div class="card-icon">🌍</div>
+      <h3>Cambio Climático</h3>
+      <p>Colombia es el 4° mayor emisor de GEI en América Latina. La descarbonización del sector eléctrico es prioritaria en el CONPES 4075 de 2022.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">⚡</div>
+      <h3>Brecha de Cobertura</h3>
+      <p>Más de 2 millones de hogares rurales aún no tienen acceso confiable a electricidad, concentrados en La Guajira, Chocó y Amazonia.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">💰</div>
+      <h3>Oportunidad Económica</h3>
+      <p>Los proyectos FNCER en Colombia podrían generar más de 35.000 empleos verdes directos para 2030 y atraer USD 4.000 millones en inversión.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🌊</div>
+      <h3>Vulnerabilidad Hídrica</h3>
+      <p>La dependencia hidroeléctrica (>68%) expone la seguridad energética a los efectos del Fenómeno El Niño. La diversificación es urgente.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DATOS -->
+<div class="data-section" id="datos">
+  <div class="data-inner">
+    <div class="section-tag">02 · Base de Datos y Herramientas</div>
+    <h2>Estructura del Análisis</h2>
+    <p class="section-lead">
+      Se diseñó una base de datos relacional MySQL normalizada hasta 3FN con 6 tablas,
+      20 plantas de generación, 15 departamentos y más de 100 registros de indicadores
+      energéticos anuales.
+    </p>
+
+    <div class="cards" style="margin-top:2.5rem">
+      <div class="card" style="border-color:var(--navy)">
+        <div class="card-icon">🗄️</div>
+        <h3>Base de Datos MySQL</h3>
+        <p>6 tablas relacionadas: departamentos, fuentes_energia, plantas, generacion_mensual, indicadores_energia, politicas.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🐍</div>
+        <h3>Python & Pandas</h3>
+        <p>Análisis exploratorio, limpieza y transformación de datos, estadísticas descriptivas e inferencia con NumPy.</p>
+      </div>
+      <div class="card" style="border-color:var(--amber)">
+        <div class="card-icon">📊</div>
+        <h3>Visualización</h3>
+        <p>Gráficas de línea, barras apiladas, dispersión y área con Matplotlib. Dashboard interactivo en Streamlit.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:3rem;margin-bottom:1rem;color:var(--navy)">⚙️ Herramientas Utilizadas</h3>
+    <div class="tools-grid">
+      <div class="tool-chip"><span>🐬</span>MySQL 8.0</div>
+      <div class="tool-chip"><span>🐍</span>Python 3.10</div>
+      <div class="tool-chip"><span>🐼</span>Pandas</div>
+      <div class="tool-chip"><span>📈</span>Matplotlib</div>
+      <div class="tool-chip"><span>🔢</span>NumPy</div>
+      <div class="tool-chip"><span>📓</span>Jupyter</div>
+      <div class="tool-chip"><span>🌐</span>Streamlit</div>
+      <div class="tool-chip"><span>📄</span>ReportLab</div>
+    </div>
+  </div>
+</div>
+
+<!-- RESULTADOS -->
+<section id="resultados">
+  <div class="section-tag">03 · Resultados Principales</div>
+  <h2>Hallazgos Clave 2020–2024</h2>
+  <p class="section-lead">Análisis comparativo de 5 departamentos representativos de las principales regiones del país.</p>
+
+  <div class="results-grid">
+    <div class="result-item">
+      <div class="result-dep">Antioquia</div>
+      <div class="result-val down">–20.2%</div>
+      <div class="result-desc">Reducción emisiones CO₂</div>
+      <div style="margin-top:.5rem;font-size:.85rem;color:var(--green)">Cobertura: 98.7% ✅</div>
+    </div>
+    <div class="result-item">
+      <div class="result-dep">La Guajira</div>
+      <div class="result-val down">–48.6%</div>
+      <div class="result-desc">Mayor reducción del país</div>
+      <div style="margin-top:.5rem;font-size:.85rem;color:var(--red)">Cobertura: 86.5% ⚠️</div>
+    </div>
+    <div class="result-item">
+      <div class="result-dep">Atlántico</div>
+      <div class="result-val down">–30.2%</div>
+      <div class="result-desc">Reducción emisiones CO₂</div>
+      <div style="margin-top:.5rem;font-size:.85rem;color:var(--green)">Inversión: +110 MM USD</div>
+    </div>
+    <div class="result-item">
+      <div class="result-dep">Valle del Cauca</div>
+      <div class="result-val down">–21.4%</div>
+      <div class="result-desc">Reducción emisiones CO₂</div>
+      <div style="margin-top:.5rem;font-size:.85rem;color:var(--green)">Cobertura: 98.7% ✅</div>
+    </div>
+    <div class="result-item">
+      <div class="result-dep">Caldas</div>
+      <div class="result-val down">–20.1%</div>
+      <div class="result-desc">Reducción emisiones CO₂</div>
+      <div style="margin-top:.5rem;font-size:.85rem;color:var(--green)">PCH líderes regionales</div>
+    </div>
+  </div>
+
+  <div style="background:linear-gradient(135deg,var(--teal),var(--navy));border-radius:16px;padding:2.5rem;margin-top:3rem;color:white">
+    <h3 style="font-size:1.3rem;margin-bottom:1rem">🎯 Proyección 2030</h3>
+    <p style="color:rgba(255,255,255,.85);line-height:1.7;font-size:1rem">
+      Colombia está <strong>en ruta de alcanzar la meta de 11.2 GW de FNCER</strong> para 2030.
+      Con el crecimiento actual, la solar fotovoltaica aportará ~2.500 MW adicionales y la eólica ~2.200 MW,
+      complementando la base hidroeléctrica existente. El mayor riesgo es la capacidad de transmisión
+      para evacuar la generación desde La Guajira hacia los centros de carga.
+    </p>
+  </div>
+</section>
+
+<!-- NORMATIVA -->
+<div class="data-section" id="normativa">
+  <div class="data-inner">
+    <div class="section-tag">04 · Marco Normativo</div>
+    <h2>Política Energética de Colombia</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem">
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-year">2014</div>
+          <div class="tl-title">Ley 1715</div>
+          <div class="tl-desc">Primera ley de energías renovables. Establece incentivos tributarios (IVA, aranceles) y la figura del autogenerador.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2021</div>
+          <div class="tl-title">Ley 2099</div>
+          <div class="tl-desc">Meta de 11.2 GW FNCER para 2030. Primera subasta de largo plazo con contratos PPA de 15 años.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2022</div>
+          <div class="tl-title">CONPES 4075</div>
+          <div class="tl-desc">Política de Transición Energética del Estado. Reducción del 51% de emisiones GEI para 2030.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2023</div>
+          <div class="tl-title">Decreto 829</div>
+          <div class="tl-desc">Comunidades energéticas y autogeneración distribuida. Meta: 100.000 prosumidores para 2026.</div>
+        </div>
+      </div>
+      <div>
+        <h3 style="color:var(--navy);margin-bottom:1rem">🔑 Recomendaciones del Análisis</h3>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:.9rem">
+          <li style="display:flex;gap:.7rem;align-items:flex-start">
+            <span style="color:var(--teal);font-size:1.2rem">●</span>
+            <span>Priorizar proyectos solares distribuidos en municipios rurales con cobertura &lt;90%.</span>
+          </li>
+          <li style="display:flex;gap:.7rem;align-items:flex-start">
+            <span style="color:var(--teal);font-size:1.2rem">●</span>
+            <span>Acelerar la cadena del hidrógeno verde en puertos del Atlántico (Barranquilla, Cartagena).</span>
+          </li>
+          <li style="display:flex;gap:.7rem;align-items:flex-start">
+            <span style="color:var(--teal);font-size:1.2rem">●</span>
+            <span>Garantizar beneficios directos de tarifa y cobertura para los departamentos productores.</span>
+          </li>
+          <li style="display:flex;gap:.7rem;align-items:flex-start">
+            <span style="color:var(--teal);font-size:1.2rem">●</span>
+            <span>Expandir la red de transmisión de alta tensión desde La Guajira hacia el interior.</span>
+          </li>
+          <li style="display:flex;gap:.7rem;align-items:flex-start">
+            <span style="color:var(--teal);font-size:1.2rem">●</span>
+            <span>Publicar datos energéticos abiertos en tiempo real (UPME, XM) para análisis ciudadano.</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ENTREGABLES -->
+<section>
+  <div class="section-tag">05 · Entregables</div>
+  <h2>Productos del Proyecto</h2>
+  <div class="deliverables">
+    <div class="deliv">
+      <div class="deliv-icon">🗄️</div>
+      <div class="deliv-title">Base de Datos SQL</div>
+      <div class="deliv-desc">Esquema MySQL normalizado con 6 tablas y 7 consultas analíticas complejas</div>
+    </div>
+    <div class="deliv" style="background:var(--teal)">
+      <div class="deliv-icon">📓</div>
+      <div class="deliv-title">Jupyter Notebook</div>
+      <div class="deliv-desc">Análisis exploratorio completo con 5 visualizaciones y estadísticas avanzadas</div>
+    </div>
+    <div class="deliv">
+      <div class="deliv-icon">📄</div>
+      <div class="deliv-title">Informe Word</div>
+      <div class="deliv-desc">Documento técnico de 8 secciones con metodología, análisis y recomendaciones</div>
+    </div>
+    <div class="deliv" style="background:var(--teal)">
+      <div class="deliv-icon">📊</div>
+      <div class="deliv-title">Presentación</div>
+      <div class="deliv-desc">11 diapositivas en PowerPoint con diseño profesional y gráficas integradas</div>
+    </div>
+    <div class="deliv">
+      <div class="deliv-icon">🌐</div>
+      <div class="deliv-title">Landing Page</div>
+      <div class="deliv-desc">Este sitio web: resumen visual e interactivo del proyecto y sus hallazgos</div>
+    </div>
+  </div>
+</section>
+
+<!-- EQUIPO -->
+<div class="data-section" id="equipo">
+  <div class="data-inner">
+    <div class="section-tag">06 · Equipo</div>
+    <h2>Nuestro Equipo</h2>
+    <div class="team">
+      <div class="member">
+        <div class="avatar">👤</div>
+        <div class="member-name">Integrante 1</div>
+        <div class="member-role">Líder de Proyecto</div>
+      </div>
+      <div class="member">
+        <div class="avatar">💾</div>
+        <div class="member-name">Integrante 2</div>
+        <div class="member-role">Ingeniería de Datos</div>
+      </div>
+      <div class="member">
+        <div class="avatar">📊</div>
+        <div class="member-name">Integrante 3</div>
+        <div class="member-role">Análisis de Datos</div>
+      </div>
+      <div class="member">
+        <div class="avatar">🎨</div>
+        <div class="member-name">Integrante 4</div>
+        <div class="member-role">Visualización</div>
+      </div>
+      <div class="member">
+        <div class="avatar">🌐</div>
+        <div class="member-name">Integrante 5</div>
+        <div class="member-role">Desarrollo Web</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p><strong>Análisis de la Transición Energética en Colombia</strong></p>
+  <p style="margin-top:.5rem">Talento Tech · Universidad de Caldas · Universidad de Antioquia · Manizales 2026</p>
+  <p style="margin-top:.4rem">Línea: Transición Energética Justa · Herramientas: MySQL · Python · Matplotlib · Jupyter</p>
+</footer>
+
+</body>
+</html>
